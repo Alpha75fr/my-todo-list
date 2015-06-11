@@ -9,7 +9,7 @@
         <h1 class="title">Etat du réseau</h1>
     </ion-nav-bar>-->
 
-    <ion-content>
-        Voici l'état du réseau
+    <ion-content ng-controller="networkController">
+        <div>Voici l'état du réseau : {{networkState()}}<div>
     </ion-content>
 </ion-view>
