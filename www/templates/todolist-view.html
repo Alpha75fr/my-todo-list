@@ -1,0 +1,49 @@
+<ion-view view-title="Ma Liste de Todo">
+
+<!--    <ion-nav-bar class="bar-positive">
+        <button class="button button-icon" ng-click="toggleMenu()">
+            <i class="icon ion-navicon"></i>
+        </button>
+        <h1 class="title">Ma Liste de Course</h1>
+
+        &lt;!&ndash; New Todo button&ndash;&gt;
+        <button class="button button-icon" ng-click="addTodo()">
+            <i class="icon"> les 2 boutons à droite ?</i>
+        </button>
+
+        &lt;!&ndash; Open add todo form &ndash;&gt;
+        <button ng-click="pageView('addtodo')">Ajouter un todo</button>
+
+    </ion-nav-bar>-->
+
+<!--    <ion-nav-bar class="bar-stable nav-title-slide-ios7">
+&lt;!&ndash;        <ion-nav-back-button class="button-icon icon  ion-ios7-arrow-back">
+            Back
+        </ion-nav-back-button>&ndash;&gt;
+        <ion-nav-buttons side="right">
+            <button class="button button-clear button-positive" ng-click="reset()">
+                Refresh
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>-->
+
+    <ion-content>
+        <ion-list>
+            <ion-item ng-repeat="todo in todoList">
+                <div class="row">
+                    <div class="col">{{todo.id}}</div>
+                    <div class="col col-50">{{todo.value}}</div>
+                    <div class="col">{{todo.quantity}}</div>
+                </div>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+
+    <ion-footer-bar class="bar-positive">
+        <button class="button" modal-close ng-click="pageView('addtodo')">
+            Ajouter un todo
+        </button>
+
+    </ion-footer-bar>
+
+</ion-view>
