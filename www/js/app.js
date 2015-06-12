@@ -13,14 +13,25 @@ angular.module('myTodoList', ['ionic'])
                 StatusBar.styleDefault();
             }
 
-            if (window.Connection) {
-                if (navigator.connection.type == Connection.NONE) {
-                    alert("Internet Disconnected");
-                } else {
-                    alert("Internet Connected");
+            if (navigator.connection) {
+                // Add event listener
+                document.addEventListener("offline", onOfflineCallback);
+                document.addEventListener("online", onOfflineCallback);
+
+                var onOfflineCallback = function() {
+                    console.log('TEST CALLBACK OFF LINE')
                 }
+            } else {
+                console.log('PAS DE PLUGIN NETWORK')
             }
+
+
+/*            // Add event listener
+            document.addEventListener("offline", networkService.onOfflineCallback, false);
+            document.addEventListener("online", networkService.onOfflineCallback, false);*/
         });
+
+
 
     })
     .config(function ($stateProvider, $urlRouterProvider) {

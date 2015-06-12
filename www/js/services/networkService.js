@@ -4,14 +4,12 @@ angular.module('myTodoList')
 
     .factory('networkService', function ($log) {
 
-        $log.debug("networkState init navigator : ", navigator);
         $log.debug("networkState init navigator.connection : ", navigator.connection);
 
-        $log.debug("networkState init window.connection : ", window.connection);
+        var networkState = null;
+        var networkType = navigator.connection.type;
 
-        //var networkState = navigator.connection.type;
-
-/*        var states = {};
+        var states = {};
         states[Connection.UNKNOWN]  = 'Unknown connection';
         states[Connection.ETHERNET] = 'Ethernet connection';
         states[Connection.WIFI]     = 'WiFi connection';
@@ -19,18 +17,18 @@ angular.module('myTodoList')
         states[Connection.CELL_3G]  = 'Cell 3G connection';
         states[Connection.CELL_4G]  = 'Cell 4G connection';
         states[Connection.CELL]     = 'Cell generic connection';
-        states[Connection.NONE]     = 'No network connection';*/
+        states[Connection.NONE]     = 'No network connection';
 
-        //alert('Connection type: ' + states[networkState]);
+
 
         return {
             networkState: function () {
-                $log.debug("networkState");
-                return $cordovaNetwork.getNetwork();
-            },
-            isOnline: function () {
-                $log.debug("networkState");
-                return $cordovaNetwork.isOnline();
+                $log.debug("networkState function");
+
+                // L'etat du réseau
+                networkState = states[networkType];
+                return networkState;
+//                return "toto";
             }
         };
     });
