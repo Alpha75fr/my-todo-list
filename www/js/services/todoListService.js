@@ -42,6 +42,8 @@ angular.module('myTodoList')
                 return todoList;
             },
             addElement: function(quantity, produit) {
+				$log.debug("quantity : ", quantity, ", produit : ", produit);
+				
                 var element = newElement(quantity, produit);
                 todoList.push(element);
             }
