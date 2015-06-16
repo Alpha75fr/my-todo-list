@@ -14,6 +14,8 @@ angular.module('myTodoList', ['ionic'])
             }
 
             if (navigator.connection) {
+				console.log('PLUGIN NETWORK INSTALLE')
+				
                 // Add event listener
                 document.addEventListener("offline", onOfflineCallback);
                 document.addEventListener("online", onOfflineCallback);
@@ -26,6 +28,14 @@ angular.module('myTodoList', ['ionic'])
             }
 
 
+			if (navigator.vibrate) {
+                console.log('PLUGIN VIBRATE INSTALLE')
+            } else {
+                console.log('PAS DE PLUGIN VIBRATE')
+            }
+			
+			console.log(navigator.vibrate);
+			
 /*            // Add event listener
             document.addEventListener("offline", networkService.onOfflineCallback, false);
             document.addEventListener("online", networkService.onOfflineCallback, false);*/

@@ -24,8 +24,10 @@
     <script src="js/controllers/todoListController.js"></script>
     <script src="js/controllers/addTodoController.js"></script>
     <script src="js/controllers/networkController.js"></script>
+	<script src="js/controllers/vibrateController.js"></script>
     <script src="js/services/todoListService.js"></script>
     <script src="js/services/networkService.js"></script>
+	<script src="js/services/vibrateService.js"></script>
 </head>
 
 
@@ -59,6 +61,9 @@
                     <ion-item>
                         <!--<a href= "#" ng-click="pageView('reseau')"> Etat du réseau</a>-->
                         <button class="button button-clear" ng-click="pageView('reseau')">Etat du réseau</button>
+                    </ion-item>
+					<ion-item ng-controller="vibrateController">
+                        <button class="button button-clear" ng-click="vibrate([500, 1000, 500, 1000, 500])">Vibration</button>
                     </ion-item>
                 </ion-list>
             </ion-content>
