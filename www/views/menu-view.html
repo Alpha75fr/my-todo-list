@@ -1,33 +1,35 @@
-<ion-side-menus enable-menu-with-back-views="true">
-    <ion-side-menu-content>
-        <ion-nav-bar class="bar-positive">
-            <!--            <ion-nav-back-button>
-                        </ion-nav-back-button>-->
+	<ion-side-menus enable-menu-with-back-views="false">
+        <ion-side-menu-content>
+            <ion-nav-bar class="bar-stable">
+                <ion-nav-back-button>
+                </ion-nav-back-button>
 
-            <ion-nav-buttons side="left">
-                <button class="button button-icon ion-navicon" menu-toggle="left"></button>
-            </ion-nav-buttons>
-        </ion-nav-bar>
+                <ion-nav-buttons side="left">
+                    <button class="button button-icon ion-navicon" menu-toggle="left"></button>
+                </ion-nav-buttons>
+            </ion-nav-bar>
 
-        <ion-nav-view animation="slide-left-right"></ion-nav-view>
-    </ion-side-menu-content>
+            <ion-nav-view name="menuContent"></ion-nav-view>
+        </ion-side-menu-content>
 
-    <!-- Left menu -->
-    <ion-side-menu side="left">
-        <ion-header-bar class="bar-positive">
-            <h1 class="title">Menu</h1>
-        </ion-header-bar>
-        <ion-content scroll="true"> <!-- bloque le scroll -->
-            <ion-list>
-                <ion-item>
-                    <!--                    <a href= "#" ng-click="pageView('todolist')">Ma liste de Todo</a>-->
-                    <button class="button button-clear" ng-click="pageView('todolist')">Ma liste de Todo</button>
-                </ion-item>
-                <ion-item>
-                    <!--<a href= "#" ng-click="pageView('reseau')"> Etat du réseau</a>-->
-                    <button class="button button-clear" ng-click="pageView('reseau')">Etat du réseau</button>
-                </ion-item>
-            </ion-list>
-        </ion-content>
-    </ion-side-menu>
-</ion-side-menus>
+        <!-- Left menu -->
+        <ion-side-menu side="left">
+            <ion-header-bar class="bar-stable">
+                <h1 class="title">Menu</h1>
+            </ion-header-bar>
+            
+			<ion-content> 
+                <ion-list>
+					<ion-item menu-close href="#/menu/todolist">
+					  Ma liste de Todo
+					</ion-item>
+					<ion-item menu-close href="#/menu/network">
+					  Etat du réseau
+					</ion-item>
+					<ion-item ng-controller="vibrateController">
+                        <button class="button button-clear" ng-click="vibrate([500, 1000, 500, 1000, 500])">Vibration</button>
+                    </ion-item>
+                </ion-list>
+            </ion-content>
+        </ion-side-menu>
+    </ion-side-menus>
