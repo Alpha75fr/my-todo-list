@@ -1,6 +1,10 @@
-angular.module('todoList.services', [])
+'use strict';
 
-    .factory('TodoList', function () {
+angular.module('myTodoList')
+
+    .factory('todoListService', function ($log) {
+
+        $log.debug("factory('todoListService')");
         var id = 5;
 
         // Some fake testing data
@@ -33,10 +37,13 @@ angular.module('todoList.services', [])
         }
 
         return {
-            all: function () {
+            getTodos: function () {
+                $log.debug("getTodos");
                 return todoList;
             },
             addElement: function(quantity, produit) {
+				$log.debug("quantity : ", quantity, ", produit : ", produit);
+				
                 var element = newElement(quantity, produit);
                 todoList.push(element);
             }
