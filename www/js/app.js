@@ -45,22 +45,36 @@ angular.module('myTodoList', ['ionic'])
 
     })
     .config(function ($stateProvider, $urlRouterProvider) {
+		console.log('Config');
+		
         $stateProvider
-            .state('todolist', {
-                url: '/todolist',
-                templateUrl: 'views/todolist-view.html',
-                controller: 'todoListController'
-            })
-            .state('addtodo', {
-                url: '/addtodo',
-                templateUrl: 'views/addtodo-view.html'
+		  .state('menu', {
+			url: "/menu",
+			abstract: true,
+			templateUrl: "views/menu-view.html",
+			controller: 'menuController'
+		  })
 
-            })
-            .state('reseau', {
-                url: '/reseau',
-                templateUrl: 'views/reseau-view.html',
-                controller: 'networkController'
-            });
-        $urlRouterProvider.otherwise('/todolist');
+		  .state('menu.todolist', {
+			url: "/todolist",
+			views: {
+			  'menuContent': {
+				templateUrl: 'views/todolist-view.html',
+				controller: 'todoListController'
+			  }
+			}
+		  })
+
+		  .state('menu.network', {
+			url: "/network",
+			views: {
+			  'menuContent': {
+				templateUrl: 'views/reseau-view.html',
+				controller: 'networkController'
+			  }
+			}
+		  });
+		
+        $urlRouterProvider.otherwise('/menu/todolist');
     });
 
