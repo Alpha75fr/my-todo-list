@@ -20,17 +20,15 @@
             
 			<ion-content> 
                 <ion-list>
-					<ion-item menu-close href="#/menu/todolist">
+					<ion-item menu-close ui-sref="menu.todolist">
 					  Ma liste de Todo
 					</ion-item>
-					<ion-item menu-close href="#/menu/network">
+					<ion-item menu-close ui-sref="menu.network">
 					  Etat du réseau
 					</ion-item>
-
 					<ion-item ng-controller="vibrateController" ng-click="vibrate([500, 1000, 500, 1000, 500])">
                         Vibration
                     </ion-item>
-
                 </ion-list>
             </ion-content>
         </ion-side-menu>

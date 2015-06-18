@@ -1,8 +1,7 @@
-<ion-view view-title="Ma Liste de Todo">
-
+<ion-view title="Todo">
     <ion-content>
         <ion-list>
-            <ion-item ng-repeat="todo in todoList" ui-sref="menu.todo({todoId: todo.id})">
+            <ion-item>
                 <div class="row">
                     <div class="col">{{todo.id}}</div>
                     <div class="col col-50">{{todo.value}}</div>
@@ -11,12 +10,4 @@
             </ion-item>
         </ion-list>
     </ion-content>
-
-    <ion-footer-bar class="bar-positive">
-        <button class="button" modal-close ng-click="pageView('addtodo')">
-            Ajouter un todo
-        </button>
-
-    </ion-footer-bar>
-
 </ion-view>

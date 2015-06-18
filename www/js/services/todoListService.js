@@ -38,8 +38,12 @@ angular.module('myTodoList')
 
         return {
             getTodos: function () {
-                $log.debug("getTodos");
                 return todoList;
+            },
+			getTodo: function (index) {
+				$log.debug("getTodo : ", index);
+				$log.debug("getTodo : ", todoList[index]);
+                return todoList[index];
             },
             addElement: function(quantity, produit) {
 				$log.debug("quantity : ", quantity, ", produit : ", produit);
