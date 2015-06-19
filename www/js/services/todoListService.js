@@ -4,7 +4,6 @@ angular.module('myTodoList')
 
     .factory('todoListService', function ($log, $localstorage) {
 
-        $log.debug("factory('todoListService')");
         var id = 5;
 
         // Some fake testing data
@@ -35,7 +34,11 @@ angular.module('myTodoList')
 
         var newElement = function (quantity, value) {
             return {id: id++, quantity: quantity, value: value};
-        }
+        };
+
+        var nextId = function () {
+            return this.getTodos().length;
+        };
 
         return {
             init: function () {
@@ -47,12 +50,12 @@ angular.module('myTodoList')
             }
             ,
             getTodo: function (id) {
-                return getTodos(id);
+                return this.getTodos()[id];
             }
             ,
             addElement: function (quantity, produit) {
                 $log.debug("quantity : ", quantity, ", produit : ", produit);
-
+                $log.debug("next id ", nextId());
                 var element = newElement(quantity, produit);
                 todoList.push(element);
             }

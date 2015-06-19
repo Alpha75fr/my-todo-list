@@ -4,8 +4,6 @@ angular.module('myTodoList')
 
     .factory('networkService', function ($log) {
 
-        $log.debug("networkState init navigator.connection : ", navigator.connection);
-
 		if (navigator.connection) {
 			var networkState = null;
 			var networkType = navigator.connection.type;
@@ -24,9 +22,9 @@ angular.module('myTodoList')
 
         return {
             networkState: function () {
-                $log.debug("networkState function");
+
+				// L'état du réseau
 				if (states) {
-					// L'etat du réseau
 					networkState = states[networkType];
 				} else {
 					networkState = 'Les informations concernant l\'état du réseau sont indisponibles.';
