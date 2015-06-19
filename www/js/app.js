@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('myTodoList', ['ionic'])
+angular.module('myTodoList', ['ionic', 'ionic-utils'])
 
-    .run(function ($ionicPlatform) {
+    .run(function ($log, $ionicPlatform, todoListService) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -14,24 +14,28 @@ angular.module('myTodoList', ['ionic'])
             }
 
             if (navigator.connection) {
-                console.log('PLUGIN NETWORK INSTALLE')
+                $log.debug('PLUGIN NETWORK INSTALLE')
 
                 // Add event listener
                 document.addEventListener("offline", onOfflineCallback);
                 document.addEventListener("online", onOfflineCallback);
 
                 var onOfflineCallback = function () {
-                    console.log('TEST CALLBACK OFF LINE')
+                    $log.debug('TEST CALLBACK OFF LINE');
                 }
             } else {
-                console.log('PAS DE PLUGIN NETWORK')
+                $log.debug('PAS DE PLUGIN NETWORK');
             }
 
             if (navigator.vibrate) {
-                console.log('PLUGIN VIBRATE INSTALLE')
+                $log.debug('PLUGIN VIBRATE INSTALLE');
             } else {
-                console.log('PAS DE PLUGIN VIBRATE')
+                $log.debug('PAS DE PLUGIN VIBRATE');
             }
+
+            // Initialise la base de donnée
+            todoListService.init();
+            $log.debug('init data : ', todoListService.getTodos());
 
             /*            // Add event listener
              document.addEventListener("offline", networkService.onOfflineCallback, false);
