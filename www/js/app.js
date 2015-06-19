@@ -78,6 +78,17 @@ angular.module('myTodoList', ['ionic', 'ionic-utils'])
                     }
                 }
             })
+            .state('menu.addtodo', {
+                url: "/addtodo",
+//				templateUrl: 'views/addtodo-view.html',
+//				controller: 'addTodoController'
+                views: {
+                    'menuContent': {
+                        templateUrl: 'views/addtodo-view.html',
+                        controller: 'addTodoController'
+                    }
+                }
+            })
             .state('menu.network', {
                 url: "/network",
 //				templateUrl: 'views/reseau-view.html',
