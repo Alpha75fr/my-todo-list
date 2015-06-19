@@ -28,10 +28,11 @@ angular.module('myTodoList')
 				if (states) {
 					// L'etat du réseau
 					networkState = states[networkType];
-					return networkState;
+				} else {
+					networkState = 'Les informations concernant l\'état du réseau sont indisponibles.';
 				}
-				
-                return null;
+
+				return networkState;
             }
         };
     });
