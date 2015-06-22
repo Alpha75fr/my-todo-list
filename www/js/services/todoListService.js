@@ -4,8 +4,6 @@ angular.module('myTodoList')
 
     .factory('todoListService', function ($log, $localstorage) {
 
-        var id = 5;
-
         // Some fake testing data
         var todoList = [
             //newElement('1 kg', 'Pomme'),
@@ -31,22 +29,41 @@ angular.module('myTodoList')
                 value: 'Farine'
             }];
 
+        var init = function(defaultValue) {
+            if (defaultValue && $localstorage.isEmpty('todolist')) {
+                setTodo(todoList);
+            } else {
+                $log.debug("pas vide");
+            }
+        };
+
+        var setTodo = function(list) {
+            $localstorage.setObject('todolist', list);
+        };
+
+        var getTodos = function() {
+            if($localstorage.isEmpty('todolist')) {
+                $localstorage.setObject('todolist', []);
+            }
+
+            return $localstorage.getObject('todolist');
+        };
 
         var newElement = function (quantity, value) {
-            return {id: id++, quantity: quantity, value: value};
+            return {id: nextId(), quantity: quantity, value: value};
         };
 
         var nextId = function () {
-            return this.getTodos().length;
+            return getTodos().length;
         };
 
         return {
-            init: function () {
-                $localstorage.setObject('todolist', todoList);
+            init: function(defaultValue) {
+                init(defaultValue);
             }
             ,
-            getTodos: function () {
-                return $localstorage.getObject('todolist', 'valeur par défaut');
+            getTodos: function() {
+                return getTodos();
             }
             ,
             getTodo: function (id) {
@@ -54,10 +71,11 @@ angular.module('myTodoList')
             }
             ,
             addElement: function (quantity, produit) {
-                $log.debug("quantity : ", quantity, ", produit : ", produit);
-                $log.debug("next id ", nextId());
                 var element = newElement(quantity, produit);
-                todoList.push(element);
+                var oldList = getTodos();
+                oldList.push(element);
+                setTodo(oldList);
+                $log.debug("new todoList", getTodos());
             }
         };
     })

@@ -33,8 +33,8 @@ angular.module('myTodoList', ['ionic', 'ionic-utils'])
                 $log.debug('PAS DE PLUGIN VIBRATE');
             }
 
-            // Initialise la base de donnée
-            todoListService.init();
+            // Initialise la base de donnée (true pour charger des données par défaut)
+            todoListService.init(true);
             $log.debug('init data : ', todoListService.getTodos());
 
             /*            // Add event listener
@@ -75,6 +75,17 @@ angular.module('myTodoList', ['ionic', 'ionic-utils'])
                 resolve: {
                     todo: function ($stateParams, todoListService) {
                         return todoListService.getTodo($stateParams.todoId)
+                    }
+                }
+            })
+            .state('menu.addtodo', {
+                url: "/addtodo",
+//				templateUrl: 'views/addtodo-view.html',
+//				controller: 'addTodoController'
+                views: {
+                    'menuContent': {
+                        templateUrl: 'views/addtodo-view.html',
+                        controller: 'addTodoController'
                     }
                 }
             })

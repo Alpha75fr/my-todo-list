@@ -1,14 +1,13 @@
 'use strict';
 
 angular.module('myTodoList').controller('todoListController',
-	function($log, $scope, todoListService) {
+	function($log, $scope, $rootScope, todoListService) {
 
 		// Charge la liste des todos
-		$scope.todoList = todoListService.getTodos();
-		
-		$scope.element = {produit: "", quantity: ""};
+		$scope.todoList =  todoListService.getTodos();
 
-		$scope.addTodo = function (element, titi) {
-			//TodoList.addElement(element);
-		}
+		// Ecoute une maj de la table
+		$rootScope.$on('todo:listChanged', function() {
+			$scope.todoList =  todoListService.getTodos();
+		});
 	});

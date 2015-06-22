@@ -1,12 +1,12 @@
-<ion-view view-title="Ajouter un todo">
+<ion-view cache-view="false" view-title="Ajouter un todo">
 
-    <!--    <ion-header-bar class="bar-positive">
-            <button class="button" ng-click="pageView('todolist')">
-                Back
-            </button>
 
-            <h1 class="title"></h1>
-        </ion-header-bar>-->
+    <ion-nav-buttons side="secondary">
+        <button class="button" ng-click="addElement()">
+            Ajouter votre todo
+        </button>
+    </ion-nav-buttons>
+
 
     <ion-content>
         <div class="list">
@@ -22,17 +22,5 @@
             </label>
         </div>
     </ion-content>
-
-    <ion-footer-bar class="bar-positive">
-        <!-- New Todo button-->
-        <button class="button" ng-click="addElement()">
-            Ajouter votre todo
-        </button>
-
-        <button class="button" ng-click="pageView('reseau')">
-            Ajouter votre todo4
-        </button>
-
-    </ion-footer-bar>
 
 </ion-view>
