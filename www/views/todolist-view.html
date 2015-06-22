@@ -10,7 +10,7 @@
 
     <ion-content>
         <ion-list>
-            <ion-item ng-repeat="todo in todoList" ui-sref="menu.todo({todoId: todo.id})">
+            <ion-item ng-repeat="todo in todoList" on-hold="removeTodo(todo.id)" ui-sref="menu.todo({todoId: todo.id})">
                 <div class="row">
                     <div class="col">{{todo.id}}</div>
                     <div class="col col-50">{{todo.value}}</div>

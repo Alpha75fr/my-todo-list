@@ -4,9 +4,10 @@ angular.module('myTodoList')
 
     .factory('todoListService', function ($log, $localstorage) {
 
+        var myTodoList = null;
+
         // Some fake testing data
-        var todoList = [
-            //newElement('1 kg', 'Pomme'),
+        var defaultTodoList = [
             {
                 id: 0,
                 quantity: '1 kg',
@@ -30,27 +31,49 @@ angular.module('myTodoList')
             }];
 
         var init = function(defaultValue) {
-            if (defaultValue && $localstorage.isEmpty('todolist')) {
-                setTodo(todoList);
-            } else {
-                $log.debug("pas vide");
+            myTodoList = []
+            if ($localstorage.isEmpty('todolist') && defaultValue) {
+                myTodoList = defaultTodoList;
+                $log.debug("defaultValue");
+            } else if (!$localstorage.isEmpty('todolist')) {
+                myTodoList = $localstorage.getObject('todolist');
+                $log.debug("defaultValue else");
             }
+
+            setElements(myTodoList);
         };
 
-        var setTodo = function(list) {
+        var setElements = function(list) {
             $localstorage.setObject('todolist', list);
         };
 
         var getTodos = function() {
-            if($localstorage.isEmpty('todolist')) {
-                $localstorage.setObject('todolist', []);
-            }
-
-            return $localstorage.getObject('todolist');
+            return myTodoList;
         };
 
-        var newElement = function (quantity, value) {
+        var newItem = function (quantity, value) {
             return {id: nextId(), quantity: quantity, value: value};
+        };
+
+        var addElement = function (quantity, produit) {
+            var item = newItem(quantity, produit);
+            myTodoList.push(item);
+            setElements(myTodoList);
+            $log.debug("new todoList", getTodos());
+        };
+
+        var removeElementById = function (id) {
+            var pos = -1;
+            for (var i = 0; i < getTodos().length; i++) {
+                if ( getTodos()[i].id === parseInt(id)) {
+                    pos = i;
+                    break;
+                }
+            }
+
+            myTodoList.splice(i, 1);
+            setElements(myTodoList);
+            $log.debug("new todoList", myTodoList);
         };
 
         var nextId = function () {
@@ -70,12 +93,11 @@ angular.module('myTodoList')
                 return this.getTodos()[id];
             }
             ,
-            addElement: function (quantity, produit) {
-                var element = newElement(quantity, produit);
-                var oldList = getTodos();
-                oldList.push(element);
-                setTodo(oldList);
-                $log.debug("new todoList", getTodos());
+            addTodo: function (quantity, produit) {
+                addElement(quantity, produit);
+            },
+            removeTodo: function(id) {
+                removeElementById(id);
             }
         };
     })
