@@ -29,8 +29,8 @@ angular.module('myTodoList')
                 value: 'Farine'
             }];
 
-        var init = function() {
-            if ($localstorage.isEmpty('todolist')) {
+        var init = function(defaultValue) {
+            if (defaultValue && $localstorage.isEmpty('todolist')) {
                 setTodo(todoList);
             } else {
                 $log.debug("pas vide");
@@ -42,6 +42,10 @@ angular.module('myTodoList')
         };
 
         var getTodos = function() {
+            if($localstorage.isEmpty('todolist')) {
+                $localstorage.setObject('todolist', []);
+            }
+
             return $localstorage.getObject('todolist');
         };
 
@@ -54,8 +58,8 @@ angular.module('myTodoList')
         };
 
         return {
-            init: function() {
-                init();
+            init: function(defaultValue) {
+                init(defaultValue);
             }
             ,
             getTodos: function() {
