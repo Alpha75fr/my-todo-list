@@ -30,6 +30,30 @@ angular.module('myTodoList')
                 value: 'Farine'
             }];
 
+        var getElements = function() {
+            return myTodoList;
+        };
+
+        var getElement = function (id) {
+            var pos = searchIndexOfElementById(id);
+            return getElements()[pos];
+        };
+
+        var addElement = function (quantity, produit) {
+            var item = newItem(quantity, produit);
+            myTodoList.push(item);
+            setElements(myTodoList);
+            $log.debug("new todoList", getElement());
+        };
+
+        var removeElementById = function (id) {
+            var pos = searchIndexOfElementById(id);
+
+            myTodoList.splice(pos, 1);
+            setElements(myTodoList);
+        };
+
+        // functions utilitaires de la classe
         var init = function(defaultValue) {
             myTodoList = []
             if ($localstorage.isEmpty('todolist') && defaultValue) {
@@ -47,37 +71,24 @@ angular.module('myTodoList')
             $localstorage.setObject('todolist', list);
         };
 
-        var getTodos = function() {
-            return myTodoList;
-        };
-
         var newItem = function (quantity, value) {
             return {id: nextId(), quantity: quantity, value: value};
         };
 
-        var addElement = function (quantity, produit) {
-            var item = newItem(quantity, produit);
-            myTodoList.push(item);
-            setElements(myTodoList);
-            $log.debug("new todoList", getTodos());
-        };
-
-        var removeElementById = function (id) {
+        var searchIndexOfElementById = function (id) {
             var pos = -1;
-            for (var i = 0; i < getTodos().length; i++) {
-                if ( getTodos()[i].id === parseInt(id)) {
+            for (var i = 0; i < getElements().length; i++) {
+                if ( getElements()[i].id === parseInt(id)) {
                     pos = i;
                     break;
                 }
             }
 
-            myTodoList.splice(i, 1);
-            setElements(myTodoList);
-            $log.debug("new todoList", myTodoList);
+            return pos;
         };
 
         var nextId = function () {
-            return getTodos().length;
+            return getElements().length;
         };
 
         return {
@@ -86,11 +97,11 @@ angular.module('myTodoList')
             }
             ,
             getTodos: function() {
-                return getTodos();
+                return getElements();
             }
             ,
             getTodo: function (id) {
-                return this.getTodos()[id];
+                return getElement(id);
             }
             ,
             addTodo: function (quantity, produit) {
