@@ -5,6 +5,7 @@ angular.module('myTodoList').controller('todoListController',
 
         // Charge la liste des todos
         $scope.todoList = todoListService.getTodos();
+        $log.debug("----> todoListController : ", $scope.todoList);
 
         // Ecoute une maj de la table
         $rootScope.$on('todo:listChanged', function () {
