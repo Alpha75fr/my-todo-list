@@ -63,7 +63,7 @@ angular.module('myTodoList')
             if ($localstorage.isEmpty('todolist') && defaultValue) {
                 myTodoList = defaultTodoList;
                 nextIndex = myTodoList.length;
-                $localstorage.set("nextIndexTodo", nextIndex);
+                $localstorage.set("nextTodoId", nextIndex);
                 $log.debug("defaultValue");
             } else if (!$localstorage.isEmpty('todolist')) {
                 myTodoList = $localstorage.getObject('todolist');
