@@ -67,7 +67,7 @@ angular.module('myTodoList')
                 $log.debug("defaultValue");
             } else if (!$localstorage.isEmpty('todolist')) {
                 myTodoList = $localstorage.getObject('todolist');
-                nextIndex = $localstorage.get("nextIndexTodo");
+                nextIndex = $localstorage.get("nextTodoId");
                 $log.debug("defaultValue else");
             }
 
@@ -80,7 +80,7 @@ angular.module('myTodoList')
 
         var newItem = function (quantity, value) {
             var item = {id: nextIndex++, quantity: quantity, value: value};
-            $localstorage.set("nextIndexTodo", nextIndex);
+            $localstorage.set("nextTodoId", nextIndex);
 
             return item;
         };
