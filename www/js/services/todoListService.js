@@ -4,7 +4,9 @@ angular.module('myTodoList')
 
     .factory('todoListService', function ($log, $localstorage) {
 
+
         var myTodoList = null;
+        var nextIndex = null;
 
         // Some fake testing data
         var defaultTodoList = [
@@ -30,37 +32,42 @@ angular.module('myTodoList')
                 value: 'Farine'
             }];
 
+        // fonctions locales
         var getElements = function() {
             return myTodoList;
         };
 
         var getElement = function (id) {
-            var pos = searchIndexOfElementById(id);
-            return getElements()[pos];
+            var index = searchIndexOfElementById(id);
+            return getElements()[index];
         };
 
         var addElement = function (quantity, produit) {
             var item = newItem(quantity, produit);
             myTodoList.push(item);
             setElements(myTodoList);
-            $log.debug("new todoList", getElement());
+            $log.debug("new todoList", getElements());
         };
 
         var removeElementById = function (id) {
-            var pos = searchIndexOfElementById(id);
+            var index = searchIndexOfElementById(id);
 
-            myTodoList.splice(pos, 1);
+            myTodoList.splice(index, 1);
             setElements(myTodoList);
         };
 
-        // functions utilitaires de la classe
+        // fonctions utilitaires de la classe
         var init = function(defaultValue) {
-            myTodoList = []
+            myTodoList = [];
+
             if ($localstorage.isEmpty('todolist') && defaultValue) {
                 myTodoList = defaultTodoList;
+                nextIndex = myTodoList.length;
+                $localstorage.set("nextIndexTodo", nextIndex);
                 $log.debug("defaultValue");
             } else if (!$localstorage.isEmpty('todolist')) {
                 myTodoList = $localstorage.getObject('todolist');
+                nextIndex = $localstorage.get("nextIndexTodo");
                 $log.debug("defaultValue else");
             }
 
@@ -72,25 +79,25 @@ angular.module('myTodoList')
         };
 
         var newItem = function (quantity, value) {
-            return {id: nextId(), quantity: quantity, value: value};
+            var item = {id: nextIndex++, quantity: quantity, value: value};
+            $localstorage.set("nextIndexTodo", nextIndex);
+
+            return item;
         };
 
         var searchIndexOfElementById = function (id) {
-            var pos = -1;
+            var index = -1;
             for (var i = 0; i < getElements().length; i++) {
                 if ( getElements()[i].id === parseInt(id)) {
-                    pos = i;
+                    index = i;
                     break;
                 }
             }
 
-            return pos;
+            return index;
         };
 
-        var nextId = function () {
-            return getElements().length;
-        };
-
+        // fonctions visibles de l'exterieur
         return {
             init: function(defaultValue) {
                 init(defaultValue);
