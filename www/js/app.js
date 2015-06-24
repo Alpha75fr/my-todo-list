@@ -1,9 +1,12 @@
 'use strict';
 
-angular.module('myTodoList', ['ionic', 'ionic-utils'])
+angular.module('myTodoList', ['ionic', 'ionic-utils', 'ngCordova'])
 
     .run(function ($log, $ionicPlatform, todoListService) {
         $ionicPlatform.ready(function () {
+
+            $log.debug("app.js ready");
+
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
             if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -105,8 +108,17 @@ angular.module('myTodoList', ['ionic', 'ionic-utils'])
                         controller: 'networkController'
                     }
                 }
+            })
+            .state('menu.position', {
+                url: "/position",
+                views: {
+                    'menuContent': {
+                        templateUrl: 'views/position-view.html',
+                        controller: 'positionController'
+                    }
+                }
             });
 
-        $urlRouterProvider.otherwise('/menu/todolist');
+        $urlRouterProvider.otherwise('/menu/network');
     });
 
