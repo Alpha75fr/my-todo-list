@@ -4,7 +4,6 @@ angular.module('myTodoList')
 
     .factory('todoListService', function ($log, $localstorage) {
 
-
         var myTodoList = null;
         var nextIndex = null;
 
@@ -51,7 +50,6 @@ angular.module('myTodoList')
 
         var removeElementById = function (id) {
             var index = searchIndexOfElementById(id);
-
             myTodoList.splice(index, 1);
             setElements(myTodoList);
         };
@@ -59,30 +57,30 @@ angular.module('myTodoList')
         // fonctions utilitaires de la classe
         var init = function(defaultValue) {
             myTodoList = [];
+            nextIndex = 0;
 
-            if ($localstorage.isEmpty('todolist') && defaultValue) {
-                myTodoList = defaultTodoList;
-                nextIndex = myTodoList.length;
-                $localstorage.set("nextTodoId", nextIndex);
-                $log.debug("defaultValue");
-            } else if (!$localstorage.isEmpty('todolist')) {
+            if (!$localstorage.isEmpty('todolist')) {
                 myTodoList = $localstorage.getObject('todolist');
                 nextIndex = $localstorage.get("nextTodoId");
-                $log.debug("defaultValue else");
+                $log.debug("$localstorage is not empty");
+            } else if ($localstorage.isEmpty('todolist') && defaultValue) {
+                myTodoList = defaultTodoList;
+                nextIndex = myTodoList.length;
+                setElements(myTodoList);
+                $log.debug("$localstorage is empty and load defaultValue");
+            } else {
+                setElements(myTodoList);
+                $log.debug("$localstorage is empty and load defaultValue");
             }
-
-            setElements(myTodoList);
         };
 
         var setElements = function(list) {
             $localstorage.setObject('todolist', list);
+            $localstorage.set("nextTodoId", nextIndex);
         };
 
         var newItem = function (quantity, value) {
-            var item = {id: nextIndex++, quantity: quantity, value: value};
-            $localstorage.set("nextTodoId", nextIndex);
-
-            return item;
+            return {id: nextIndex++, quantity: quantity, value: value};
         };
 
         var searchIndexOfElementById = function (id) {
@@ -119,4 +117,3 @@ angular.module('myTodoList')
             }
         };
     })
-;

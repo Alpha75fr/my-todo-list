@@ -8,9 +8,10 @@ angular.module('myTodoList').controller('todoListController',
         $log.debug("----> todoListController : ", $scope.todoList);
 
         // Ecoute une maj de la table
-        $rootScope.$on('todo:listChanged', function () {
+        // ne sert à rien. Il faut mettre le trackId dans le ngrepeat
+/*        $rootScope.$on('todo:listChanged', function () {
             $scope.todoList = todoListService.getTodos();
-        });
+        });*/
 
         // Efface un todo de la liste
         $scope.removeTodo = function (todoId) {
