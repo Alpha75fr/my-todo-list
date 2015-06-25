@@ -1,35 +1,21 @@
 'use strict';
 
 angular.module('myTodoList').controller('positionController',
-    function ($scope, $log) {
+        function ($scope, $log, geolocationService) {
 
-        $scope.lattitude = null;
-        $scope.longitude = null;
+            $scope.$watch(function () { return geolocationService.getLatitude() }, function (latitude) {
+                $log.debug("La valeur a été modifié");
+                $scope.latitude = latitude;
+            });
 
-        // onSuccess Callback
-        //   This method accepts a `Position` object, which contains
-        //   the current GPS coordinates
-        var onSuccess = function (position) {
-            $scope.lattitude = position.coords.latitude;
-            $scope.longitude = position.coords.longitude;
+            $scope.$watch(function () { return geolocationService.getLongitude() }, function (longitude) {
+                $log.debug("La valeur a été modifié");
+                $scope.longitude = longitude;
+            });
 
 
-            $log.debug('Latitude: ', position.coords.latitude, '\n',
-                'Longitude: ', $scope.lattitude, '\n',
-                'Altitude: ', $scope.longitude, '\n',
-                'Accuracy: ', position.coords.accuracy, '\n',
-                'Altitude Accuracy: ', position.coords.altitudeAccuracy, '\n',
-                'Heading: ', position.coords.heading, '\n',
-                'Speed: ', position.coords.speed, '\n',
-                'Timestamp: ', position.timestamp, '\n');
-        };
+            //$scope.latitude = geolocationService.getLatitude();
+            //$scope.longitude = geolocationService.getLongitude();
 
-        // onError Callback receives a PositionError object
-
-        function onError(error) {
-            $log.debug('code: ', error.code, '\n',
-                'message: ', error.message, '\n');
-        }
-
-         navigator.geolocation.getCurrentPosition(onSuccess, onError);
-    });
+            $scope.location = geolocationService.getLocation();
+    })
