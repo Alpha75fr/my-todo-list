@@ -4,9 +4,12 @@ angular.module('myTodoList')
 
     .factory('todoListService', function ($log, $localstorage) {
 
+
+        var myTodoList = null;
+        var nextIndex = null;
+
         // Some fake testing data
-        var todoList = [
-            //newElement('1 kg', 'Pomme'),
+        var defaultTodoList = [
             {
                 id: 0,
                 quantity: '1 kg',
@@ -29,53 +32,90 @@ angular.module('myTodoList')
                 value: 'Farine'
             }];
 
-        var init = function(defaultValue) {
-            if (defaultValue && $localstorage.isEmpty('todolist')) {
-                setTodo(todoList);
-            } else {
-                $log.debug("pas vide");
-            }
+        // fonctions locales
+        var getElements = function() {
+            return myTodoList;
         };
 
-        var setTodo = function(list) {
+        var getElement = function (id) {
+            var index = searchIndexOfElementById(id);
+            return getElements()[index];
+        };
+
+        var addElement = function (quantity, produit) {
+            var item = newItem(quantity, produit);
+            myTodoList.push(item);
+            setElements(myTodoList);
+            $log.debug("new todoList", getElements());
+        };
+
+        var removeElementById = function (id) {
+            var index = searchIndexOfElementById(id);
+
+            myTodoList.splice(index, 1);
+            setElements(myTodoList);
+        };
+
+        // fonctions utilitaires de la classe
+        var init = function(defaultValue) {
+            myTodoList = [];
+
+            if ($localstorage.isEmpty('todolist') && defaultValue) {
+                myTodoList = defaultTodoList;
+                nextIndex = myTodoList.length;
+                $localstorage.set("nextTodoId", nextIndex);
+                $log.debug("defaultValue");
+            } else if (!$localstorage.isEmpty('todolist')) {
+                myTodoList = $localstorage.getObject('todolist');
+                nextIndex = $localstorage.get("nextTodoId");
+                $log.debug("defaultValue else");
+            }
+
+            setElements(myTodoList);
+        };
+
+        var setElements = function(list) {
             $localstorage.setObject('todolist', list);
         };
 
-        var getTodos = function() {
-            if($localstorage.isEmpty('todolist')) {
-                $localstorage.setObject('todolist', []);
+        var newItem = function (quantity, value) {
+            var item = {id: nextIndex++, quantity: quantity, value: value};
+            $localstorage.set("nextTodoId", nextIndex);
+
+            return item;
+        };
+
+        var searchIndexOfElementById = function (id) {
+            var index = -1;
+            for (var i = 0; i < getElements().length; i++) {
+                if ( getElements()[i].id === parseInt(id)) {
+                    index = i;
+                    break;
+                }
             }
 
-            return $localstorage.getObject('todolist');
+            return index;
         };
 
-        var newElement = function (quantity, value) {
-            return {id: nextId(), quantity: quantity, value: value};
-        };
-
-        var nextId = function () {
-            return getTodos().length;
-        };
-
+        // fonctions visibles de l'exterieur
         return {
             init: function(defaultValue) {
                 init(defaultValue);
             }
             ,
             getTodos: function() {
-                return getTodos();
+                return getElements();
             }
             ,
             getTodo: function (id) {
-                return this.getTodos()[id];
+                return getElement(id);
             }
             ,
-            addElement: function (quantity, produit) {
-                var element = newElement(quantity, produit);
-                var oldList = getTodos();
-                oldList.push(element);
-                setTodo(oldList);
-                $log.debug("new todoList", getTodos());
+            addTodo: function (quantity, produit) {
+                addElement(quantity, produit);
+            },
+            removeTodo: function(id) {
+                removeElementById(id);
             }
         };
     })

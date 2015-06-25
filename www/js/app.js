@@ -58,8 +58,14 @@ angular.module('myTodoList', ['ionic', 'ionic-utils'])
                 views: {
                     'menuContent': {
                         templateUrl: 'views/todolist-view.html',
-                        controller: 'todoListController'
+                        controller: 'todoListController',
+                        onEnter: function($log) {
+                            $log.debug("----> Entre le state todolist", todoListService.getTodos())
+                        }
                     }
+                },
+                onEnter: function($log, todoListService) {
+                    $log.debug("----> Entre le state todolist bis ",  todoListService.getTodos());
                 }
             })
             .state('menu.todo', {
