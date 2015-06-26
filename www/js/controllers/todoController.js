@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('myTodoList').controller('todoController',
-    function($log, $scope, $stateParams, todoListService, todo) {
+    function($log, $scope, todo) {
 
-        // Charge le todo spécifique
-        $scope.todo = todo
+        // Charge le todo spécifique grace au resolver
+        $scope.todo = todo;
     });

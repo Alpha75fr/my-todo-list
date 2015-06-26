@@ -2,7 +2,7 @@
 
 angular.module('myTodoList')
 
-    .factory('todoListService', function ($log, $localstorage) {
+    .factory('todoListService', function ($log, $localstorage, $q) {
 
         var myTodoList = null;
         var nextIndex = null;
@@ -45,13 +45,14 @@ angular.module('myTodoList')
             var item = newItem(quantity, produit);
             myTodoList.push(item);
             setElements(myTodoList);
-            $log.debug("new todoList", getElements());
+            $log.debug("addElement new todoList", getElements());
         };
 
         var removeElementById = function (id) {
             var index = searchIndexOfElementById(id);
             myTodoList.splice(index, 1);
             setElements(myTodoList);
+            $log.debug("removeElement new todoList", getElements());
         };
 
         // fonctions utilitaires de la classe
@@ -70,7 +71,7 @@ angular.module('myTodoList')
                 $log.debug("$localstorage is empty and load defaultValue");
             } else {
                 setElements(myTodoList);
-                $log.debug("$localstorage is empty and load defaultValue");
+                $log.debug("$localstorage is empty");
             }
         };
 
@@ -102,6 +103,8 @@ angular.module('myTodoList')
             }
             ,
             getTodos: function() {
+                $log.debug("myTodoList - getTodo :", myTodoList);
+
                 return getElements();
             }
             ,
@@ -111,6 +114,7 @@ angular.module('myTodoList')
             ,
             addTodo: function (quantity, produit) {
                 addElement(quantity, produit);
+                return getElements();
             },
             removeTodo: function(id) {
                 removeElementById(id);

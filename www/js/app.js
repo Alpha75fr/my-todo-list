@@ -39,14 +39,9 @@ angular.module('myTodoList', ['ionic', 'ionic-utils', 'ngCordova'])
             // Initialise la base de donnée (true pour charger des données par défaut)
             todoListService.init(true);
             $log.debug('init data : ', todoListService.getTodos());
-
-            /*            // Add event listener
-             document.addEventListener("offline", networkService.onOfflineCallback, false);
-             document.addEventListener("online", networkService.onOfflineCallback, false);*/
         });
     })
     .config(function ($stateProvider, $urlRouterProvider) {
-
         $stateProvider
             .state('menu', {
                 url: "/menu",
@@ -56,14 +51,18 @@ angular.module('myTodoList', ['ionic', 'ionic-utils', 'ngCordova'])
             })
             .state('menu.todolist', {
                 url: "/todolist",
-//				templateUrl: 'views/todolist-view.html',
-//				controller: 'todoListController'
                 views: {
                     'menuContent': {
                         templateUrl: 'views/todolist-view.html',
                         controller: 'todoListController',
-                        onEnter: function($log) {
-                            $log.debug("----> Entre le state todolist", todoListService.getTodos())
+                        resolve: {
+                            todos: function ($log, todoListService) {
+// Je ne comprends pas pourquoi il faut faire l'init ici sinon ----> todoListController :  null
+// Il est initialisé dans le dom ready
+//todoListService.init(true);
+                                $log.debug("----> list dans le resolve ",  todoListService.getTodos());
+                                return todoListService.getTodos();
+                            }
                         }
                     }
                 },
@@ -73,18 +72,19 @@ angular.module('myTodoList', ['ionic', 'ionic-utils', 'ngCordova'])
             })
             .state('menu.todo', {
                 url: '/todo/:todoId',
-//              templateUrl: 'views/todo-view.html',
-//  			controller: 'todoController'
                 views: {
                     'menuContent': {
                         templateUrl: 'views/todo-view.html',
-                        controller: 'todoController'
+                        controller: 'todoController',
+                        resolve: {
+                            todo: function ($stateParams, todoListService) {
+                                return todoListService.getTodo($stateParams.todoId);
+                            }
+                        }
                     }
                 },
-                resolve: {
-                    todo: function ($stateParams, todoListService) {
-                        return todoListService.getTodo($stateParams.todoId)
-                    }
+                onEnter: function($log, todoListService) {
+                    $log.debug("----> Entre le state todo");
                 }
             })
             .state('menu.addtodo', {
@@ -119,6 +119,6 @@ angular.module('myTodoList', ['ionic', 'ionic-utils', 'ngCordova'])
                 }
             });
 
-        $urlRouterProvider.otherwise('/menu/network');
+        $urlRouterProvider.otherwise('/menu/todolist');
     });
 
