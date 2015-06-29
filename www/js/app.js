@@ -35,10 +35,6 @@ angular.module('myTodoList', ['ionic', 'ionic-utils', 'ngCordova'])
             } else {
                 $log.debug('PAS DE PLUGIN VIBRATE');
             }
-
-            // Initialise la base de donnée (true pour charger des données par défaut)
-            todoListService.init(true);
-            $log.debug('init data : ', todoListService.getTodos());
         });
     })
     .config(function ($stateProvider, $urlRouterProvider) {
@@ -56,18 +52,17 @@ angular.module('myTodoList', ['ionic', 'ionic-utils', 'ngCordova'])
                         templateUrl: 'views/todolist-view.html',
                         controller: 'todoListController',
                         resolve: {
-                            todos: function ($log, todoListService) {
-// Je ne comprends pas pourquoi il faut faire l'init ici sinon ----> todoListController :  null
-// Il est initialisé dans le dom ready
-//todoListService.init(true);
-                                $log.debug("----> list dans le resolve ",  todoListService.getTodos());
-                                return todoListService.getTodos();
+                            todoListResource: 'todoListService',
+                            todos: function (todoListResource) {
+                                // Indique s'il faut initialiser ou non les valeurs par défaut si le localStorage est vide
+                                todoListResource.initDefaultValue(true);
+                                return todoListResource.getTodos();
                             }
                         }
                     }
                 },
-                onEnter: function($log, todoListService) {
-                    $log.debug("----> Entre le state todolist bis ",  todoListService.getTodos());
+                onEnter: function($log) {
+                    //$log.debug("----> Entre dans le state todolist bis ");
                 }
             })
             .state('menu.todo', {
@@ -84,7 +79,7 @@ angular.module('myTodoList', ['ionic', 'ionic-utils', 'ngCordova'])
                     }
                 },
                 onEnter: function($log, todoListService) {
-                    $log.debug("----> Entre le state todo");
+                    $log.debug("----> Entre dans le state todo");
                 }
             })
             .state('menu.addtodo', {

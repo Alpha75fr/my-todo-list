@@ -6,6 +6,7 @@ angular.module('myTodoList')
 
         var myTodoList = null;
         var nextIndex = null;
+        var init = false;
 
         // Some fake testing data
         var defaultTodoList = [
@@ -32,13 +33,13 @@ angular.module('myTodoList')
             }];
 
         // fonctions locales
-        var getElements = function() {
+        var getElements = function () {
             return myTodoList;
         };
 
         var getElement = function (id) {
             var index = searchIndexOfElementById(id);
-            return getElements()[index];
+            return myTodoList[index];
         };
 
         var addElement = function (quantity, produit) {
@@ -56,7 +57,7 @@ angular.module('myTodoList')
         };
 
         // fonctions utilitaires de la classe
-        var init = function(defaultValue) {
+        var initElements = function (defaultValue) {
             myTodoList = [];
             nextIndex = 0;
 
@@ -75,7 +76,7 @@ angular.module('myTodoList')
             }
         };
 
-        var setElements = function(list) {
+        var setElements = function (list) {
             $localstorage.setObject('todolist', list);
             $localstorage.set("nextTodoId", nextIndex);
         };
@@ -87,7 +88,7 @@ angular.module('myTodoList')
         var searchIndexOfElementById = function (id) {
             var index = -1;
             for (var i = 0; i < getElements().length; i++) {
-                if ( getElements()[i].id === parseInt(id)) {
+                if (getElements()[i].id === parseInt(id)) {
                     index = i;
                     break;
                 }
@@ -98,14 +99,26 @@ angular.module('myTodoList')
 
         // fonctions visibles de l'exterieur
         return {
-            init: function(defaultValue) {
-                init(defaultValue);
+            // defaultValue = true pour charger les valeurs par défaut
+            initDefaultValue: function (defaultValue) {
+                if (!init) {
+                    initElements(defaultValue);
+                    init = true;
+                    $log.debug("----> initElements", init, defaultValue);
+                }
             }
             ,
-            getTodos: function() {
-                $log.debug("myTodoList - getTodo :", myTodoList);
+            getTodos: function () {
+                // Creates a Deferred object
+                var deferred = $q.defer();
 
-                return getElements();
+                // Resolve or reject the promise depending the argument
+                if (myTodoList == null)
+                    deferred.reject({});
+                else
+                    deferred.resolve(getElements());
+
+                return deferred.promise;
             }
             ,
             getTodo: function (id) {
@@ -116,8 +129,10 @@ angular.module('myTodoList')
                 addElement(quantity, produit);
                 return getElements();
             },
-            removeTodo: function(id) {
+            removeTodo: function (id) {
                 removeElementById(id);
+
+                $log.debug("----> removeElementById");
             }
         };
     })
