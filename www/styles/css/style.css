@@ -2,3 +2,16 @@
 .row {
     text-align: center;
 }
+
+/* Attention sinon on a rien à l'écran */
+.angular-google-map-container {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.scroll {
+    height: 100%;
+}

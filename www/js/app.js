@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myTodoList', ['ionic', 'ionic-utils', 'ngCordova'])
+angular.module('myTodoList', ['ionic', 'ionic-utils', 'ngCordova', 'uiGmapgoogle-maps'])
 
     .run(function ($log, $ionicPlatform, todoListService) {
         $ionicPlatform.ready(function () {
@@ -110,6 +110,15 @@ angular.module('myTodoList', ['ionic', 'ionic-utils', 'ngCordova'])
                     'menuContent': {
                         templateUrl: 'views/position-view.html',
                         controller: 'positionController'
+                    }
+                }
+            }).
+            state('menu.map', {
+                url: "/map",
+                views: {
+                    'menuContent': {
+                        templateUrl: 'views/map-view.html',
+                        controller: 'mapController'
                     }
                 }
             });
