@@ -8,7 +8,7 @@
         </ion-nav-buttons>
     </ion-nav-bar><!---->
 
-    <ion-content>
+    <ion-content class="padding">
         <ion-list>
             <ion-item ng-repeat="todo in todoList track by todo.id" on-swipe-left="removeTodo(todo.id)" ui-sref="menu.todo({todoId: todo.id})"> <!--on-hold="removeTodo(todo.id)"-->
                 <div class="row">
