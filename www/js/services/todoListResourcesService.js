@@ -1,36 +1,11 @@
 'use strict';
 
 angular.module('myTodoList')
-
-    .factory('todoListService', function ($log, $localstorage, $q, jsonResourcesService) {
+    .factory('todoListResourcesService', function ($log, $localstorage, $q) {
 
         var myTodoList = null;
         var nextIndex = null;
         var init = false;
-
-        // Some fake testing data
-        var defaultTodoList = [
-            {
-                id: 0,
-                quantity: '1 kg',
-                value: 'Pomme'
-            }, {
-                id: 1,
-                quantity: '2 kg',
-                value: 'Orange'
-            }, {
-                id: 2,
-                quantity: '5 kg',
-                value: 'Pomme de terre'
-            }, {
-                id: 3,
-                quantity: '1 kg',
-                value: 'Sucre'
-            }, {
-                id: 4,
-                quantity: '1 kg',
-                value: 'Farine'
-            }];
 
         // fonctions locales
         var getElements = function () {
@@ -60,42 +35,33 @@ angular.module('myTodoList')
         var initElements = function (defaultValue) {
             myTodoList = [];
             nextIndex = 0;
+            $log.debug("initElements");
 
-            // on initialise qu'une fois
-            if (!init) {
-    /*            var datas = [];
-                var object = jsonResourcesService.getJsonResources().get();
-                $log.debug("getJsonResources ", object);
+            if (!$localstorage.isEmpty('todolist')) {
+                myTodoList = $localstorage.getObject('todolist');
+                nextIndex = $localstorage.get("nextTodoId");
+                $log.debug("$localstorage is not empty");
+            } else if ($localstorage.isEmpty('todolist') && defaultValue) {
 
-                jsonResourcesService.getJsonResources().get().$promise.then(
-                    function (result) {
-                        $log.debug("getJsonResources true", result.defaultTodoList);
-                        datas = result;
-                    }, function () {
-                        $log.debug("getJsonResources false");
-                    }
-                );*/
-
-                $log.debug("blabla");
-
-                if (!$localstorage.isEmpty('todolist')) {
-                    myTodoList = $localstorage.getObject('todolist');
-                    nextIndex = $localstorage.get("nextTodoId");
-                    $log.debug("$localstorage is not empty");
-                } else if ($localstorage.isEmpty('todolist') && defaultValue) {
-                    $log.debug("$localstorage is empty and load defaultValue");
-                    $log.debug("myTodoList ", myTodoList);
-                    myTodoList = defaultTodoList;
-                    nextIndex = myTodoList.length;
-                    //setElements(myTodoList);
-                    $log.debug("$localstorage is empty and load defaultValue");
-                } else {
-                    setElements(myTodoList);
-                    $log.debug("$localstorage is empty");
-                }
-
-                // set init à true
-                init = true;
+                getJsonResources().then(function () {
+                getJsonResources().get(function (data) {
+                    $log.debug("data", data);
+                    $log.debug("data", data.defaultTodoList);
+                    myTodoList = data.defaultTodoList;
+                });
+                });
+/*
+                    $log.debug("lecture getJsonResources");
+//                    $log.debug("data", data.defaultTodoList);
+                 //   myTodoList = data.defaultTodoList;
+                });*/
+                $log.debug("myTodoList", myTodoList);
+                nextIndex = myTodoList.length;
+                setElements(myTodoList);
+                $log.debug("$localstorage is empty and load defaultValue");
+            } else {
+                setElements(myTodoList);
+                $log.debug("$localstorage is empty");
             }
         };
 
@@ -108,6 +74,7 @@ angular.module('myTodoList')
             return {id: nextIndex++, quantity: quantity, value: value};
         };
 
+        // Recherche l'index dans le tableau de l'element ayant l'id saisie
         var searchIndexOfElementById = function (id) {
             var index = -1;
             for (var i = 0; i < getElements().length; i++) {
@@ -124,13 +91,12 @@ angular.module('myTodoList')
         return {
             // defaultValue = true pour charger les valeurs par défaut
             initDefaultValue: function (defaultValue) {
-                // Creates a Deferred object
-                var deferred = $q.defer();
 
-                initElements(defaultValue);
-                deferred.resolve(true);
-
-                return deferred.promise;
+                if (!init) {
+                    initElements(defaultValue);
+                    init = true;
+                    $log.debug("----> initElements", init, defaultValue);
+                }
             }
             ,
             getTodos: function () {
