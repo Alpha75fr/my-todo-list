@@ -16,7 +16,7 @@
   <preference name="BackupWebStorage" value="none"/>
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="1000"/>
-  <preference name="Fullscreen" value="true" />
+  <preference name="Fullscreen" value="false" />
   <preference name="Orientation" value="default" />
   <!--<preference name="BackgroundColor" value="0xffff0000"/>-->
   <feature name="StatusBar">

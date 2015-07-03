@@ -5,6 +5,7 @@ angular.module('myTodoList')
 			var geolocation = {latitude: '', longitude: ''}
 
 			var posOptions = {timeout: 10000, enableHighAccuracy: false};
+
 			$cordovaGeolocation
 				.getCurrentPosition(posOptions)
 				.then(function (position) {
@@ -51,6 +52,10 @@ angular.module('myTodoList')
 				},
 				getLongitude: function() {
 					return getLongitude();
+				},
+				clearGeolocation: function() {
+					if (watch)
+						$cordovaGeolocation.clearWatch(watch);
 				}
 			}
 		});
