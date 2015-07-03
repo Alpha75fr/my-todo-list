@@ -112,8 +112,16 @@ angular.module('myTodoList', ['ionic', 'ionic-utils', 'ngCordova'])
                         controller: 'positionController'
                     }
                 }
+            })
+            .state('menu.rss', {
+                url: "/position",
+                views: {
+                    'menuContent': {
+                        templateUrl: 'views/rss-view.html',
+                        controller: 'rssController'
+                    }
+                }
             });
 
         $urlRouterProvider.otherwise('/menu/todolist');
-    });
-
+    })

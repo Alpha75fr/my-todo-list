@@ -1,0 +1,29 @@
+<ion-view title="Mon flux RSS">
+    <!--    <ion-content>
+            <ion-list>
+                <ion-item>
+                    <div class="row">
+                        <div class="col">{{todo.id}}</div>
+                        <div class="col col-50">{{todo.value}}</div>
+                        <div class="col">{{todo.quantity}}</div>
+                    </div>
+                </ion-item>
+            </ion-list>
+        </ion-content>-->
+
+
+
+    <ion-content>
+
+        <h1>{{rssTitle}}</h1>
+
+
+        <div class="list">
+            <a ng-repeat="entry in entries" class="item" ng-click="browse(entry.link)">
+                <b>{{entry.title}}</b><br>
+                <span ng-bind-html="entry.contentSnippet"></span>
+            </a>
+        </div>
+    </ion-content>
+
+</ion-view>
