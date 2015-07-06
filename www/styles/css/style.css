@@ -1,9 +1,28 @@
-/* Empty. Add your own CSS if you like */
+﻿
 .row {
     text-align: center;
 }
 
+
 h1 {
     padding: 10px;
     text-align: center;
+}
+
+/* Attention sinon on a rien à l'écran */
+.angular-google-map-container {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+.scroll {
+    height: 100%;
 }
