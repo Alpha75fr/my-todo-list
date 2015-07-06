@@ -2,7 +2,7 @@
 
 angular.module('myTodoList', ['ionic', 'ionic-utils', 'ngCordova'])
 
-    .run(function ($log, $ionicPlatform, todoListService) {
+    .run(function ($log, $ionicPlatform) {
         $ionicPlatform.ready(function () {
 
             $log.debug("app.js ready");
@@ -53,10 +53,18 @@ angular.module('myTodoList', ['ionic', 'ionic-utils', 'ngCordova'])
                         controller: 'todoListController',
                         resolve: {
                             todoListResource: 'todoListService',
-                            todos: function (todoListResource) {
+                            todos: function (todoListResource, $log) {
                                 // Indique s'il faut initialiser ou non les valeurs par défaut si le localStorage est vide
-                                todoListResource.initDefaultValue(true);
-                                return todoListResource.getTodos();
+
+
+/*                                var toto = todoListResource.initDefaultValue(true);
+                                $log.debug("----> promesse initDefaultValue", toto);
+                                toto.then(function() {
+                                    $log.debug("----> promesse initDefaultValue succes");
+                                }). then(todoListResource.getTodos());*/
+
+                                todoListResource.initDefaultValue(true)
+                                return todoListResource.getTodos()
                             }
                         }
                     }
@@ -72,20 +80,19 @@ angular.module('myTodoList', ['ionic', 'ionic-utils', 'ngCordova'])
                         templateUrl: 'views/todo-view.html',
                         controller: 'todoController',
                         resolve: {
-                            todo: function ($stateParams, todoListService) {
-                                return todoListService.getTodo($stateParams.todoId);
+                            todoListResource: 'todoListService',
+                            todo: function ($stateParams, todoListResource) {
+                                return todoListResource.getTodo($stateParams.todoId);
                             }
                         }
                     }
                 },
-                onEnter: function($log, todoListService) {
+                onEnter: function($log) {
                     $log.debug("----> Entre dans le state todo");
                 }
             })
             .state('menu.addtodo', {
                 url: "/addtodo",
-//				templateUrl: 'views/addtodo-view.html',
-//				controller: 'addTodoController'
                 views: {
                     'menuContent': {
                         templateUrl: 'views/addtodo-view.html',
@@ -95,8 +102,6 @@ angular.module('myTodoList', ['ionic', 'ionic-utils', 'ngCordova'])
             })
             .state('menu.network', {
                 url: "/network",
-//				templateUrl: 'views/reseau-view.html',
-//				controller: 'networkController'
                 views: {
                     'menuContent': {
                         templateUrl: 'views/reseau-view.html',
