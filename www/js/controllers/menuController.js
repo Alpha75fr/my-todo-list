@@ -24,9 +24,6 @@ angular.module('myTodoList')
                             }
                         }
                     }
-                },
-                onEnter: function ($log) {
-                    //$log.debug("----> Entre dans le state todolist bis ");
                 }
             })
             .state('menu.todo', {
@@ -41,9 +38,6 @@ angular.module('myTodoList')
                             }
                         }
                     }
-                },
-                onEnter: function ($log, todoListService) {
-                    $log.debug("----> Entre dans le state todo");
                 }
             })
             .state('menu.addtodo', {
@@ -70,11 +64,32 @@ angular.module('myTodoList')
                     'menuContent': {
                         templateUrl: 'views/position-view.html',
                         controller: 'positionController'
+                        , resolve: {
+                            location: function ($log, geolocationService) {
+                                var location = {};
+                                geolocationService.getLocation().then(
+                                    function (pos) {
+                                        $log.debug("succes dans le resolver de position", pos);
+                                        location = {latitude: pos.latitude, longitude: pos.longitude, state: 'succes'};
+                                        $log.debug("----> position resolve ", location);
+                                        return location;
+                                    },
+                                    function () {
+                                        $log.error("error dans le resolver de position")
+                                        location = {latitude: '', longitude: '', state: 'fail'};
+                                        $log.debug("----> position resolve ", location);
+                                        return location;
+                                    }
+                                )
+                            }
+                        }
                     }
                 },
-                onExit: function ($log, geolocationService) {
+                onEnter: function ($log) {
+                    $log.debug("----> Enter position");
+                },
+                onExit: function ($log) {
                     $log.debug("----> Exit position");
-                    geolocationService.clearGeolocation();
                 }
             }).
             state('menu.map', {
@@ -83,7 +98,33 @@ angular.module('myTodoList')
                     'menuContent': {
                         templateUrl: 'views/map-view.html',
                         controller: 'mapController'
+                        , resolve: {
+                            location: function ($log, geolocationService) {
+                                var location = {};
+                                geolocationService.getLocation().then(
+                                    function (pos) {
+                                        $log.debug("succes dans le resolver de map", pos);
+                                        location = {latitude: pos.latitude, longitude: pos.longitude, state: 'succes'};
+                                        $log.debug("----> map resolve ", location);
+                                        return location;
+                                    }
+                                    ,
+                                    function () {
+                                        $log.error("error dans le resolver de map")
+                                        location = {latitude: '', longitude: '', state: 'fail'};
+                                        $log.debug("----> map resolve ", location);
+                                        return location;
+                                    }
+                                )
+                            }
+                        }
                     }
+                },
+                onEnter: function ($log) {
+                    $log.debug("----> Enter map");
+                },
+                onExit: function ($log) {
+                    $log.debug("----> Exit map");
                 }
             })
             .state('menu.rss', {
@@ -94,11 +135,11 @@ angular.module('myTodoList')
                         controller: 'rssController'
                     }
                 }
-            });;
+            });
 
         $urlRouterProvider.otherwise('/menu/todolist');
     })
     .controller('menuController',
-        function () {
-        }
-    );
+    function () {
+    }
+);

@@ -5,7 +5,6 @@ angular.module('myTodoList').controller('rssController',
 
         $log.debug(rssService.getRss());
 
-
         $scope.rssTitle = '';
         $scope.rssUrl = '';
         $scope.rssSiteUrl = '';
