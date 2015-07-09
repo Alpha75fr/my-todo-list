@@ -2,9 +2,17 @@
   "name": "myTodoList",
   "app_id": "",
   "proxies": [
-      {
-        "path": "/#/menu/rss",
-        "proxyUrl": "http://cors.api.com/#/menu/rss"
-      }
-    ]
+    {
+      "path": "/#/menu/rss",
+      "proxyUrl": "http://cors.api.com/#/menu/rss"
+    }
+  ],
+  "gulpStartupTasks": [
+    "sass",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ]
 }
