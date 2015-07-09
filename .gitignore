@@ -7,8 +7,8 @@ plugins/
 .idea/
 .sass-cache/*
 www/js/constants/configConstantes.js
-www/styles/css/app.css
-www/styles/css/app.min.css
-www/styles/fonts/*
+www/css/ionic.app.css
+www/css/ionic.app.min.css
+www/fonts/*
 www/lib/*
 
