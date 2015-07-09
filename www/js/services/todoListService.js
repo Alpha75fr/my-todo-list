@@ -87,7 +87,7 @@ angular.module('myTodoList')
                     $log.debug("myTodoList ", myTodoList);
                     myTodoList = defaultTodoList;
                     nextIndex = myTodoList.length;
-                    //setElements(myTodoList);
+                    setElements(myTodoList);
                     $log.debug("$localstorage is empty and load defaultValue");
                 } else {
                     setElements(myTodoList);
