@@ -64,32 +64,34 @@ angular.module('myTodoList')
                     'menuContent': {
                         templateUrl: 'views/position-view.html',
                         controller: 'positionController'
-                        , resolve: {
-                            location: function ($log, geolocationService) {
-                                var location = {};
-                                geolocationService.getLocation().then(
-                                    function (pos) {
-                                        $log.debug("succes dans le resolver de position", pos);
-                                        location = {latitude: pos.latitude, longitude: pos.longitude, state: 'succes'};
-                                        $log.debug("----> position resolve ", location);
-                                        return location;
-                                    },
-                                    function () {
-                                        $log.error("error dans le resolver de position")
-                                        location = {latitude: '', longitude: '', state: 'fail'};
-                                        $log.debug("----> position resolve ", location);
-                                        return location;
-                                    }
-                                )
-                            }
-                        }
+                        /*                        , resolve: {
+                         geoLocation: function ($log, geolocationService) {
+                         var location = {};
+                         geolocationService.getLocation().then(
+                         function (pos) {
+                         $log.debug("succes dans le resolver de position", pos);
+                         location = {latitude: pos.latitude, longitude: pos.longitude, state: 'succes'};
+                         $log.debug("----> position resolve ", location);
+                         return location;
+                         },
+                         function () {
+                         $log.error("error dans le resolver de position")
+                         location = {latitude: '', longitude: '', state: 'fail'};
+                         $log.debug("----> position resolve ", location);
+                         return location;
+                         }
+                         )
+                         }
+                         }*/
                     }
                 },
-                onEnter: function ($log) {
+                onEnter: function ($log, geolocationService) {
                     $log.debug("----> Enter position");
+                    //geolocationService.startGeolocation();
                 },
-                onExit: function ($log) {
+                onExit: function ($log, geolocationService) {
                     $log.debug("----> Exit position");
+                    geolocationService.clearGeolocation();
                 }
             }).
             state('menu.map', {
@@ -98,33 +100,39 @@ angular.module('myTodoList')
                     'menuContent': {
                         templateUrl: 'views/map-view.html',
                         controller: 'mapController'
-                        , resolve: {
-                            location: function ($log, geolocationService) {
-                                var location = {};
-                                geolocationService.getLocation().then(
-                                    function (pos) {
-                                        $log.debug("succes dans le resolver de map", pos);
-                                        location = {latitude: pos.latitude, longitude: pos.longitude, state: 'succes'};
-                                        $log.debug("----> map resolve ", location);
-                                        return location;
-                                    }
-                                    ,
-                                    function () {
-                                        $log.error("error dans le resolver de map")
-                                        location = {latitude: '', longitude: '', state: 'fail'};
-                                        $log.debug("----> map resolve ", location);
-                                        return location;
-                                    }
-                                )
-                            }
-                        }
+                        /*    , resolve: {
+                         location: function ($log, geolocationService) {
+                         //var location = {};
+
+                         var location = geolocationService.getLocation();
+                         $log.debug("----> map resolve ", location);
+                         /!*                                geolocationService.getLocation().then(
+                         function (pos) {
+                         $log.debug("succes dans le resolver de map", pos);
+                         location = {latitude: pos.latitude, longitude: pos.longitude, state: 'succes'};
+                         $log.debug("----> map resolve ", location);
+                         return location;
+                         }
+                         ,
+                         function () {
+                         $log.error("error dans le resolver de map")
+                         location = {latitude: '', longitude: '', state: 'fail'};
+                         $log.debug("----> map resolve ", location);
+                         return location;
+                         }
+                         ) *!/
+                         return geolocationService.getLocation();
+                         }
+                         }*/
                     }
                 },
-                onEnter: function ($log) {
+                onEnter: function ($log, geolocationService) {
                     $log.debug("----> Enter map");
+                    //geolocationService.startGeolocation();
                 },
-                onExit: function ($log) {
+                onExit: function ($log, geolocationService) {
                     $log.debug("----> Exit map");
+                    geolocationService.clearGeolocation();
                 }
             })
             .state('menu.rss', {
