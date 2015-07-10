@@ -1,56 +1,64 @@
 'use strict';
 
 angular.module('myTodoList').controller('mapController',
-    function ($scope, $log, $ionicPlatform, geolocationService, location) {
+    function ($scope, $log, $ionicPlatform, geolocationService) {
 
-        $scope.location = location;
-
-//            $scope.location = geolocationService.getLocation();
-//            $scope.latitude = location.latitude;
-//            $scope.longitude = location.longitude;
-
-
-        $log.debug("Map - init location ", location);
-
-        // Fonctions privees à la classe
-        var getLatLngPosition = function (pos) {
-            return new google.maps.LatLng(pos.latitude, pos.longitude)
-        }
+        $scope.geolocation = {};
 
         var mapOptions = {
+//            center: currentLocation,
             zoom: 16,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);;
         var marker = new google.maps.Marker({
             map: map,
             title: "My Location"
         });
 
-        $log.debug("Map - init location ", location);
+        var initialise = function () {
+            // load the first position
+            geolocationService.getLocation().then(
+                function (pos) {
+                    var currentLocation = new google.maps.LatLng(pos.latitude, pos.longitude);
 
+                    $log.debug("succes dans le controleur de  map ", pos.latitude);
+                    $log.debug("Map - init location 1 ", currentLocation);
 
+                    $scope.geolocation.latitude = pos.latitude;
+                    $scope.geolocation.longitude = pos.longitude;
+                    $scope.geolocation.state = pos.state;
 
-        // listen for location event update
-        $scope.$on('location:locationChanged', function (event, data) {
-            $log.debug("Map - location:locationChanged ", data);
-            if (data && data.geolocation) {
-                $log.debug("--------->  ", event, " - ", data.geolocation);
-                $scope.location = data.geolocation;
-//                     $scope.latitude = data.geolocation.latitude;
-//                     $scope.longitude = data.geolocation.longitude;
-                map.setCenter(getLatLngPosition(data.geolocation));
-                marker.setPosition(getLatLngPosition(data.geolocation));
-//                    $log.debug("Map - La latitude et longitude ont été modifié ", $scope.latitude, " - ", $scope.longitude);
-            }
-        })
+                    map.setCenter(currentLocation);
+                    marker.setPosition(currentLocation);
+                },
+                function (err) {
+                    $log.error("error dans le controleur de  map", err);
+                }
+            )
 
-        $scope.map = map;
+            // listen for location event update
+            $scope.$on('location:locationChanged', function (event, data) {
+                $log.debug("Map - location:locationChanged ", data);
+                if (data && data.geolocation) {
 
-        google.maps.event.addDomListener(window, 'load', function() {
-            map.setCenter(new google.maps.LatLng(location.latitude, location.longitude));
-            marker.setPosition(getLatLngPosition(location));
-        });
-    }
-);
+                    $log.debug("--------->  location:locationChanged ", event, " - ", data.geolocation);
+
+                    $scope.geolocation.latitude = data.geolocation.latitude;
+                    $scope.geolocation.longitude = data.geolocation.longitude;
+                    $scope.geolocation.state = data.geolocation.state;
+                    $scope.geolocation.update = data.geolocation.update;
+
+                    $log.debug("--------->  $scope.geolocation.latitude ", $scope.geolocation.latitude);
+
+                    var currentLocation = new google.maps.LatLng(data.geolocation.latitude, data.geolocation.longitude);
+                    map.setCenter(currentLocation);
+                    marker.setPosition(currentLocation);
+                }
+            })
+
+            $scope.map = map;
+        }
+
+        google.maps.event.addDomListener(document.getElementById("map"), 'load', initialise());
+    });
