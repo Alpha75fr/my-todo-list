@@ -58,11 +58,13 @@ angular.module('myTodoList')
 
         // fonctions utilitaires de la classe
         var initElements = function (defaultValue) {
-            myTodoList = [];
-            nextIndex = 0;
+
 
             // on initialise qu'une fois
             if (!init) {
+                myTodoList = [];
+                nextIndex = 0;
+
     /*            var datas = [];
                 var object = jsonResourcesService.getJsonResources().get();
                 $log.debug("getJsonResources ", object);
