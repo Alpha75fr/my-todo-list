@@ -26,3 +26,13 @@ h1 {
 .scroll {
     height: 100%;
 }
+
+.slider {
+    height: inherit;
+}
+
+.box {
+    height: inherit;
+}
+
+

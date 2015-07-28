@@ -139,6 +139,14 @@ angular.module('myTodoList')
                         controller: 'rssController'
                     }
                 }
+            })
+            .state('menu.slidebox', {
+                url: "/slidebox",
+                views: {
+                    'menuContent': {
+                        templateUrl: 'views/slidebox-view.html'
+                    }
+                }
             });
 
         $urlRouterProvider.otherwise('/menu/todolist');
