@@ -42,8 +42,13 @@ angular.module('myTodoList')
             return myTodoList[index];
         };
 
-        var addElement = function (quantity, produit) {
-            var item = newItem(quantity, produit);
+        var addElement = function (quantity, produit, unity) {
+
+            $log.debug("bip ", quantity);
+            $log.debug("bip ", produit);
+            $log.debug("bip ", unity);
+
+            var item = newItem(quantity, produit, unity);
             myTodoList.push(item);
             setElements(myTodoList);
             $log.debug("addElement new todoList", getElements());
@@ -106,7 +111,10 @@ angular.module('myTodoList')
             $localstorage.set("nextTodoId", nextIndex);
         };
 
-        var newItem = function (quantity, value) {
+        var newItem = function (quantity, value, unity) {
+            quantity += " ";
+            quantity += unity.value;
+
             return {id: nextIndex++, quantity: quantity, value: value};
         };
 
@@ -152,8 +160,8 @@ angular.module('myTodoList')
                 return getElement(id);
             }
             ,
-            addTodo: function (quantity, produit) {
-                addElement(quantity, produit);
+            addTodo: function (element) {
+                addElement(element.quantity, element.produit, element.unity);
                 return getElements();
             },
             removeTodo: function (id) {

@@ -8,18 +8,42 @@
     </ion-nav-buttons>
 
 
-    <ion-content>
-        <div class="list">
+    <ion-content class="padding">
+        <div class="add-todo">
+            <div class="input">
+                <label class="item item-input-inset">
+                    <span class="input-label col col-25">Produit</span>
+                    <input type="text" class="col col-75" ng-model="element.produit" placeholder="Saisissez l'article">
+                </label>
 
-            <label class="item item-input">
-                <span class="input-label">Produit</span>
-                <input type="text" ng-model="element.produit" placeholder="Saisissez l'article">
-            </label>
+<!--                <label class="item item-input-inset">
+                    <span class="input-label col col-25">Quantité</span>
+                    <div class="row">
+                        <input class="col col-50" type="number" ng-model="element.quantity" placeholder="Saisissez la quantité">
+                        <select class="col col-25" ng-model="element.unity" ng-options="unity.label for unity in unities track by unity.id"></select>
+                    </div>
+                </label>-->
 
-            <label class="item item-input">
-                <span class="input-label">Quantité</span>
-                <input type="text" ng-model="element.quantity" placeholder="Saisissez la quantité">
-            </label>
+                <!--<div class="item item-input-inset">-->
+                    <!--<label class="item-input-wrapper">-->
+                        <!--<span class="input-label col col-25">Quantité</span>-->
+                        <!--<input class="col col-75" type="number" ng-model="element.quantity" placeholder="Saisissez la quantité">-->
+                    <!--</label>-->
+                    <!--<select class="col col-33" ng-model="element.unity" ng-options="unity.value for unity in unities track by unity.id"></select>-->
+                    <!--&lt;!&ndash;<select class="col col-25" ng-model="element.unity" ng-options="unity.label for unity in unities track by unity.id"></select>&ndash;&gt;-->
+                <!--</div>-->
+                <div class="item item-input-inset">
+                    <label class="input-label col col-25">
+                        <span class="">Quantité</span>
+                    </label>
+                    <input type="number" ng-model="element.quantity" placeholder="Saisissez la quantité">
+                    <select class="item item-select col col-20" ng-model="element.unity" ng-options="unity.value for unity in unities track by unity.id"></select>
+                </div>
+
+                <div class="alert padding">{{alert}}</div>
+            </div>
+
+            <div class="div-tap" on-touch="onTouch()"></div>
         </div>
     </ion-content>
 
