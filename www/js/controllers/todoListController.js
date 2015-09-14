@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myTodoList').controller('todoListController',
-    function ($log, $scope, $rootScope, todoListService, todos, $ionicActionSheet, $timeout) {
+    function ($log, $scope, $rootScope, todoListService, todos) {
 
         // Charge la liste des todos
         $scope.todoList = todos;

@@ -147,6 +147,15 @@ angular.module('myTodoList')
                         templateUrl: 'views/slidebox-view.html'
                     }
                 }
+            })
+            .state('menu.monplugin', {
+                url: "/monplugin",
+                views: {
+                    'menuContent': {
+                        templateUrl: "views/monplugin-view.html",
+                        controller: 'monPluginController'
+                    }
+                }
             });
 
         $urlRouterProvider.otherwise('/menu/todolist');

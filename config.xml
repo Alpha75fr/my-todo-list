@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.mytodolist385199" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>myTodoList</name>
-  <description>&#xD;
+<widget id="com.ionicframework.mytodolist385199" version="0.0.1" xmlns="http://www.w3.org/ns/widgets"
+        xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>myTodoList</name>
+    <description>&#xD;
         An Ionic Framework and Cordova project.&#xD;
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">&#xD;
-      Ionic Framework Team&#xD;
+    <author email="hi@ionicframework" href="http://ionicframework.com/">&#xD;
+        Ionic Framework Team&#xD;
     </author>
-  <content src="index.html"/>
-  <access origin="*"/>
-  <preference name="webviewbounce" value="false"/>
-  <preference name="UIWebViewBounce" value="false"/>
-  <preference name="DisallowOverscroll" value="true"/>
-  <preference name="android-minSdkVersion" value="16"/>
-  <preference name="BackupWebStorage" value="none"/>
-  <preference name="SplashScreen" value="screen"/>
-  <preference name="SplashScreenDelay" value="1000"/>
-  <preference name="Fullscreen" value="false" />
-  <preference name="Orientation" value="default" />
-  <!--<preference name="BackgroundColor" value="0xffff0000"/>-->
-  <feature name="StatusBar">
-    <param name="ios-package" value="CDVStatusBar" onload="true"/>
-  </feature>
+    <content src="index.html"/>
+    <access origin="*"/>
+    <preference name="webviewbounce" value="false"/>
+    <preference name="UIWebViewBounce" value="false"/>
+    <preference name="DisallowOverscroll" value="true"/>
+    <preference name="android-minSdkVersion" value="16"/>
+    <preference name="BackupWebStorage" value="none"/>
+    <preference name="AutoHideSplashScreen" value="false"/> <!--Ne semble pas fonctionner-->
+    <!-- <preference name="SplashScreen" value="screen"/>--> <!--Si présent affiche l'image dans res/drawable en plus de BackgroundColor si présent, aucun rapport avec BackgroundColor -->
+    <!--<preference name="SplashScreenDelay" value="1000"/>-->
+    <preference name="Fullscreen" value="false"/>
+    <preference name="Orientation" value="default"/>
+    <preference name="BackgroundColor" value="0x8000ff00"/> <!-- en plus de l'icone on a écran rouge -->
+    <!--Option statusbar - Attention le StatusBarBackgroundColor ne fonctionnent qu'avec la version 5 d'android-->
+    <!--<preference name="StatusBarOverlaysWebView" value="false"/>-->
+    <!--<preference name="StatusBarBackgroundColor" value="#00ff00" />-->
+    <!--<preference name="StatusBarStyle" value="blacktranslucent" />-->
+    <feature name="StatusBar">
+        <param name="ios-package" value="CDVStatusBar" onload="true"/>
+    </feature>
 </widget>
